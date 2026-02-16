@@ -16,3 +16,7 @@ export function SubmissionStatusPage({ submissionId }: SubmissionStatusPageProps
     </AppShell>
   );
 }
+
+export default function SubmissionStatusRoutePage() {
+  return <SubmissionStatusPage submissionId="preview" />;
+}

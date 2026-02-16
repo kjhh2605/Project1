@@ -16,3 +16,7 @@ export function SubmissionReportPage({ submissionId }: SubmissionReportPageProps
     </AppShell>
   );
 }
+
+export default function SubmissionReportRoutePage() {
+  return <SubmissionReportPage submissionId="preview" />;
+}
