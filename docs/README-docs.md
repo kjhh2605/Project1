@@ -10,6 +10,10 @@
 7. 51-cicd-quality-gates.md
 8. 40-data-schema.md
 
+## 추가 핵심 산출물
+- OpenAPI 초안: `../be/api/openapi/openapi.yaml`
+- Asynq 작업 스펙: `22-asynq-task-spec.md`
+
 ## 운영 규칙
 - 중요한 기술 선택은 ADR로 기록
 - API 변경은 계약 문서와 동시 수정
