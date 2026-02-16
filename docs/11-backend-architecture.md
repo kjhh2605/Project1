@@ -47,3 +47,9 @@ api/openapi/
 - SIGTERM 수신 시 신규 요청 차단
 - 진행 중 요청/작업은 타임아웃 내 정리
 - DB/Redis/Judge0 클라이언트 순차 종료
+
+
+## 9. 서비스 분리 반영
+- Core API(Go/Gin): 사용자 트래픽 처리 전용
+- Problem Factory(Python): 문제 생성/검증/검토 전용
+- 관리자 API는 Problem Factory로 분리하고, Core API는 읽기/제출 도메인에 집중
