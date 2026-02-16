@@ -12,7 +12,11 @@
 
 ## 추가 핵심 산출물
 - OpenAPI 초안: `../be/api/openapi/openapi.yaml`
-- Asynq 작업 스펙: `22-asynq-task-spec.md`
+- OpenAPI 관리자 초안: `../be/api/openapi/problem-admin.yaml`
+- Asynq 작업 스펙(제출): `22-asynq-task-spec.md`
+- Asynq 작업 스펙(문제 생성): `25-problem-generation-asynq-spec.md`
+- 문제 생성/관리 준비 문서: `23-problem-generation-management.md`
+- 문제 소스 정책: `24-problem-source-policy.md`
 
 ## 운영 규칙
 - 중요한 기술 선택은 ADR로 기록
