@@ -70,24 +70,24 @@ export default function HomePage() {
         </section>
 
         <section className="section neu-surface">
-          <h2>Core Features</h2>
-          <div className="feature-grid">
-            {features.map((feature) => (
-              <article key={feature.title} className="feature-item neu-inset">
-                <h3>{feature.title}</h3>
-                <p>{feature.body}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section neu-surface">
           <h2>Learning Flow</h2>
           <div className="flow">
             {flowSteps.map((step) => (
               <article key={step.title} className="flow-step neu-inset">
                 <strong>{step.title}</strong>
                 <p>{step.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section neu-surface">
+          <h2>Core Features</h2>
+          <div className="feature-grid">
+            {features.map((feature, index) => (
+              <article key={feature.title} className="feature-item neu-inset feature-card" data-idx={index + 1}>
+                <h3>{feature.title}</h3>
+                <p>{feature.body}</p>
               </article>
             ))}
           </div>

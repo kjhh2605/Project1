@@ -1,19 +1,20 @@
 :root {
-  --bg: #d9e2ec;
-  --surface: #dfe8f2;
-  --ink: #233246;
-  --muted: #5b6f86;
-  --accent: #0d7db8;
+  --theme-main: #d2c3bb;
+  --bg: #d2c3bb;
+  --surface: #e5d8d1;
+  --ink: #2f2926;
+  --muted: #5f514c;
+  --accent: #8e5d42;
 
   --radius-lg: 24px;
   --radius-md: 16px;
 
   --shadow-outer:
-    12px 12px 24px #bcc6d1,
-    -10px -10px 20px #f4fbff;
+    12px 12px 24px #b8aca5,
+    -10px -10px 20px #ece0d8;
   --shadow-inner:
-    inset 7px 7px 13px #c0c8d3,
-    inset -7px -7px 13px #f8ffff;
+    inset 7px 7px 13px #beb2ab,
+    inset -7px -7px 13px #f0e4dc;
 }
 
 * {
@@ -26,8 +27,8 @@ body {
   min-height: 100%;
   color: var(--ink);
   background:
-    radial-gradient(circle at 15% 14%, rgba(255, 255, 255, 0.75), transparent 34%),
-    radial-gradient(circle at 88% 88%, rgba(175, 201, 222, 0.45), transparent 35%),
+    radial-gradient(circle at 15% 14%, rgba(255, 255, 255, 0.5), transparent 34%),
+    radial-gradient(circle at 88% 88%, rgba(171, 146, 132, 0.28), transparent 35%),
     var(--bg);
   font-family: 'Space Grotesk', 'Avenir Next', 'Trebuchet MS', 'Segoe UI', sans-serif;
 }
@@ -128,6 +129,28 @@ main {
   padding: 14px;
 }
 
+.feature-card {
+  min-width: 0;
+  transition: transform 0.2s ease;
+  animation: drift-rtl 6s ease-in-out infinite;
+}
+
+.feature-card:hover {
+  transform: scale(1.05);
+}
+
+.feature-card[data-idx='2'] {
+  animation-delay: 0.6s;
+}
+
+.feature-card[data-idx='3'] {
+  animation-delay: 1.2s;
+}
+
+.feature-card[data-idx='4'] {
+  animation-delay: 1.8s;
+}
+
 .feature-item h3 {
   margin: 0;
   font-size: 16px;
@@ -142,13 +165,15 @@ main {
 
 .flow {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(170px, 1fr));
   gap: 10px;
   margin-top: 12px;
+  align-items: stretch;
 }
 
 .flow-step {
   padding: 12px;
+  min-width: 0;
 }
 
 .flow-step strong {
@@ -177,9 +202,26 @@ main {
   color: var(--muted);
 }
 
+@keyframes drift-rtl {
+  from {
+    transform: translateX(8px);
+  }
+  50% {
+    transform: translateX(-8px);
+  }
+  to {
+    transform: translateX(8px);
+  }
+}
+
 @media (max-width: 840px) {
   .hero {
     grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    min-width: 0;
+    animation: none;
   }
 
   .flow {
@@ -193,6 +235,10 @@ main {
   }
 
   .flow {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-track {
     grid-template-columns: 1fr;
   }
 
