@@ -3,16 +3,16 @@
 
 # Node
 node_modules/
-fe/node_modules/
+apps/fe/node_modules/
 .pnpm-store/
 
 # Next
-fe/.next/
-fe/coverage/
+apps/fe/.next/
+apps/fe/coverage/
 
 # Go
-be/bin/
-be/coverage.out
+apps/be/bin/
+apps/be/coverage.out
 
 # Env
 .env
