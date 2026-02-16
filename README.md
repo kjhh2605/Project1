@@ -20,7 +20,16 @@ Next.js(`apps/fe`) + Go Gin(`apps/be`) 기반 모노레포 스캐폴드.
 
 ```bash
 make setup
-make dev
+make up
+```
+
+앱별 단독 실행:
+
+```bash
+make fe-dev
+make be-dev
+make pf-dev
+make pf-worker
 ```
 
 ## Quality Gates
