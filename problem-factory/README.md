@@ -19,3 +19,12 @@ uvicorn app.main:app --reload --port 8090
 ```bash
 celery -A app.workers.celery_app.celery_app worker -l info
 ```
+
+## Docker Compose
+프로젝트 루트에서:
+```bash
+docker compose up --build problem-factory problem-factory-worker redis postgres
+```
+
+## Health
+- `GET /v1/admin/healthz`

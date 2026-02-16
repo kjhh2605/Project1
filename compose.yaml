@@ -1,0 +1,62 @@
+services:
+  be:
+    build: ./be
+    command: ["go", "run", "./cmd/api"]
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - CORS_ORIGIN=http://localhost:3000
+
+  fe:
+    build: ./fe
+    command: ["npm", "run", "dev", "--", "-p", "3000", "-H", "0.0.0.0"]
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+    depends_on:
+      - be
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=project1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  problem-factory:
+    build: ./problem-factory
+    ports:
+      - "8090:8090"
+    environment:
+      - APP_ENV=local
+      - PORT=8090
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/project1
+    depends_on:
+      - redis
+      - postgres
+
+  problem-factory-worker:
+    build: ./problem-factory
+    command: ["celery", "-A", "app.workers.celery_app.celery_app", "worker", "-l", "info"]
+    environment:
+      - APP_ENV=local
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/project1
+    depends_on:
+      - redis
+      - postgres
+
+volumes:
+  pgdata:
