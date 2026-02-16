@@ -7,13 +7,10 @@ Next.js(`apps/fe`) + Go Gin(`apps/be`) 기반 모노레포 스캐폴드.
 - `apps/fe/` frontend app (Next.js + TypeScript)
 - `apps/be/` backend API (Go + Gin)
 - `apps/problem-factory/` 문제 생성/검증 서버 (Python FastAPI + Celery)
-- `pm/` product specs and roadmap
-- `qa/` test strategy and regression checklist
-- `design/` UX/UI docs
 - `devops/` infra, CI/CD, deployment docs
-- `data/` data dictionary and ETL notes
-- `ml/` model experiments
+- `data/` data dictionary and migrations
 - `shared/` shared contracts (OpenAPI)
+- `docs/` architecture/operations documents
 - `docs/adr/` architecture decision records
 
 ## Quick Start
