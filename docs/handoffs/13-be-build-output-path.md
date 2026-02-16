@@ -6,6 +6,7 @@
 ## Status
 - done:
   - `apps/be/package.json` build 스크립트를 `mkdir -p build && go build -o build/api ./cmd/api`로 변경
+  - root `package.json`에 `packageManager` 추가(터보 workspace 해석 실패 동시 해결)
 - in-progress:
   - PR 생성 및 CI 확인
 - todo:
@@ -25,7 +26,7 @@
 
 ## Next steps
 1. PR 생성 (`feat/#13/be-build-output-path` -> `develop`)
-2. CI에서 turbo/BE build 성공 확인
+2. CI에서 turbo workspace 해석 + BE build 성공 확인
 3. 통과 시 머지
 
 ## Verification commands
