@@ -1,0 +1,11 @@
+{
+  "name": "project1-problem-factory",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "lint": "python -m compileall app",
+    "test": "python -m compileall app",
+    "build": "python -m compileall app",
+    "typecheck": "python -m compileall app"
+  }
+}
