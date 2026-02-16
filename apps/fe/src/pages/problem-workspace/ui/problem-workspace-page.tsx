@@ -16,3 +16,7 @@ export function ProblemWorkspacePage({ problemId }: ProblemWorkspacePageProps) {
     </AppShell>
   );
 }
+
+export default function ProblemWorkspaceRoutePage() {
+  return <ProblemWorkspacePage problemId="preview" />;
+}

@@ -7,6 +7,7 @@
 - done:
   - `apps/be/package.json` build 스크립트를 `mkdir -p build && go build -o build/api ./cmd/api`로 변경
   - root `package.json`에 `packageManager` 추가(터보 workspace 해석 실패 동시 해결)
+  - `apps/fe/src/pages/**` 3개 파일에 default export 추가(Next build 실패 동시 해결)
 - in-progress:
   - PR 생성 및 CI 확인
 - todo:
