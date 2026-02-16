@@ -1,0 +1,28 @@
+default:
+  - vibe-requirements-clarifier
+  - vibe-success-criteria-planner
+  - vibe-tdd-implementation-loop
+  - vibe-surgical-change-guard
+  - vibe-verification-matrix
+  - vibe-git-pr-safety-flow
+
+conditional:
+  parallel:
+    - vibe-parallel-worktree-orchestrator
+    - vibe-context-handoff-manager
+  tracks:
+    fe:
+      - vibe-nextjs-fsd-boundary
+    be:
+      - vibe-go-hexagonal-architecture
+    pf:
+      - vibe-backend-lifecycle-di
+    platform:
+      - vibe-monorepo-turborepo-ops
+  task_type:
+    api-change:
+      - vibe-api-contract-first
+    refactor:
+      - vibe-debt-firebreak-architecture
+    ops:
+      - vibe-fullstack-quality-gates

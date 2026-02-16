@@ -1,0 +1,141 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop]
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      fe: ${{ steps.filter.outputs.fe }}
+      be: ${{ steps.filter.outputs.be }}
+      pf: ${{ steps.filter.outputs.pf }}
+      docs_only: ${{ steps.filter.outputs.docs_only }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            fe:
+              - 'apps/fe/**'
+              - 'package.json'
+              - 'turbo.json'
+              - 'shared/**'
+              - 'compose.yaml'
+              - 'Makefile'
+            be:
+              - 'apps/be/**'
+              - 'package.json'
+              - 'turbo.json'
+              - 'shared/**'
+              - 'data/migrations/**'
+              - 'compose.yaml'
+              - 'Makefile'
+            pf:
+              - 'apps/problem-factory/**'
+              - 'package.json'
+              - 'turbo.json'
+              - 'data/migrations/**'
+              - 'compose.yaml'
+              - 'Makefile'
+            docs_only:
+              - 'docs/**'
+              - '**/*.md'
+
+  fe:
+    needs: changes
+    if: needs.changes.outputs.fe == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/fe
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/fe/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test -- --run
+      - run: npm run build
+
+  be:
+    needs: changes
+    if: needs.changes.outputs.be == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/be
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+      - run: go mod tidy
+      - run: go test ./...
+
+  problem_factory:
+    needs: changes
+    if: needs.changes.outputs.pf == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/problem-factory
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: python -m compileall app
+
+  contract:
+    needs: changes
+    if: needs.changes.outputs.be == 'true' || needs.changes.outputs.fe == 'true' || needs.changes.outputs.pf == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: OpenAPI files exist
+        run: |
+          test -f apps/be/api/openapi/openapi.yaml
+          test -f apps/be/api/openapi/problem-admin.yaml
+
+  turbo:
+    needs: changes
+    if: needs.changes.outputs.fe == 'true' || needs.changes.outputs.be == 'true' || needs.changes.outputs.pf == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps/fe/package-lock.json
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install FE dependencies
+        run: npm ci --prefix apps/fe
+      - name: Install PF dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r apps/problem-factory/requirements.txt
+      - name: Run turbo quality gates
+        run: npx --yes turbo@2 run lint test build typecheck
+
+  docs_only_notice:
+    needs: changes
+    if: needs.changes.outputs.fe != 'true' && needs.changes.outputs.be != 'true' && needs.changes.outputs.pf != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Only docs/meta changes detected. App CI jobs skipped."

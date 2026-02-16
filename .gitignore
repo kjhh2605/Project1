@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+apps/fe/node_modules/
+.pnpm-store/
+
+# Next
+apps/fe/.next/
+apps/fe/coverage/
+apps/fe/tsconfig.tsbuildinfo
+
+# Go
+apps/be/bin/
+apps/be/coverage.out
+
+# Env
+.env
+.env.local
+*.local
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Parallel workflow local state
+worktrees/

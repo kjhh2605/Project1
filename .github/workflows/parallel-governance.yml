@@ -1,0 +1,40 @@
+name: Parallel Workflow Governance
+
+on:
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  validate_parallel_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate PR body fields for app-scoped branches
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if [[ "$BRANCH_NAME" =~ ^(feat|hotfix|chore)/#([0-9]+)/(fe|be|pf|platform)-[a-z0-9._-]+$ ]]; then
+            echo "app-scoped branch detected: $BRANCH_NAME"
+            echo "$PR_BODY" | grep -Eq "Affected Tracks" || { echo "Missing 'Affected Tracks' in PR body"; exit 1; }
+            echo "$PR_BODY" | grep -Eq "Merge Order" || { echo "Missing 'Merge Order' in PR body"; exit 1; }
+            echo "$PR_BODY" | grep -Eq "Parent PR" || { echo "Missing 'Parent PR' in PR body"; exit 1; }
+          else
+            echo "non app-scoped branch; skip PR body strict checks"
+          fi
+
+      - name: Require handoff document change for app-scoped branches
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if [[ "$BRANCH_NAME" =~ ^(feat|hotfix|chore)/#([0-9]+)/(fe|be|pf|platform)-[a-z0-9._-]+$ ]]; then
+            git fetch origin "$BASE_REF" --depth=1
+            CHANGED_FILES="$(git diff --name-only "origin/${BASE_REF}...HEAD")"
+            echo "$CHANGED_FILES"
+            echo "$CHANGED_FILES" | grep -Eq '^docs/handoffs/.+\.md$' || { echo "docs/handoffs/*.md 변경이 필요합니다."; exit 1; }
+          else
+            echo "non app-scoped branch; skip handoff file check"
+          fi

@@ -1,0 +1,11 @@
+{
+  "name": "project1-monorepo",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "turbo:ci": "npx --yes turbo@2 run lint test build typecheck"
+  }
+}
