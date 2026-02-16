@@ -11,13 +11,30 @@ jobs:
         env:
           BRANCH_NAME: ${{ github.head_ref }}
         run: |
+          # New preferred patterns (app-scoped)
+          if [[ "$BRANCH_NAME" =~ ^feat/#([0-9]+)/(fe|be|pf|platform)-[a-z0-9._-]+$ ]]; then
+            echo "feature branch naming is valid (app-scoped)"
+            exit 0
+          fi
+
+          if [[ "$BRANCH_NAME" =~ ^hotfix/#([0-9]+)/(fe|be|pf|platform)-[a-z0-9._-]+$ ]]; then
+            echo "hotfix branch naming is valid (app-scoped)"
+            exit 0
+          fi
+
+          if [[ "$BRANCH_NAME" =~ ^chore/#([0-9]+)/(platform|docs|infra)-[a-z0-9._-]+$ ]]; then
+            echo "chore branch naming is valid"
+            exit 0
+          fi
+
+          # Backward compatibility (legacy)
           if [[ "$BRANCH_NAME" =~ ^feat/#([0-9]+)/[a-z0-9._-]+$ ]]; then
-            echo "feature branch naming is valid"
+            echo "feature branch naming is valid (legacy)"
             exit 0
           fi
 
           if [[ "$BRANCH_NAME" =~ ^hotfix/#([0-9]+)/[a-z0-9._-]+$ ]]; then
-            echo "hotfix branch naming is valid"
+            echo "hotfix branch naming is valid (legacy)"
             exit 0
           fi
 
@@ -27,5 +44,11 @@ jobs:
           fi
 
           echo "Invalid branch name: $BRANCH_NAME"
-          echo "Allowed: feat/#<issue>/<name>, hotfix/#<issue>/<name>, release/<semver>"
+          echo "Allowed examples:"
+          echo "- feat/#123/fe-editor-diff"
+          echo "- feat/#456/be-submission-sse"
+          echo "- feat/#789/pf-pr-crawler"
+          echo "- chore/#101/docs-architecture-update"
+          echo "- hotfix/#102/be-null-pointer"
+          echo "- release/1.2.3"
           exit 1
