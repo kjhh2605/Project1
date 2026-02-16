@@ -35,6 +35,7 @@ make pf-worker
 make lint
 make test
 make ci
+make turbo-ci
 ```
 
 ## Branch Rules (GitFlow)
@@ -43,3 +44,26 @@ make ci
 - feature: `feat/#<issue-number>/<branch-name>`
 - hotfix: `hotfix/#<issue-number>/<branch-name>`
 - release: `release/<major>.<minor>.<patch>`
+
+## Parallel Workflow
+
+Create and manage parallel worktrees with issue-scoped tracks:
+
+```bash
+make wt-new ISSUE=123 TRACK=fe TYPE=feat SLUG=editor-diff TASK=feature
+make wt-list
+make wt-sync
+make wt-close ISSUE=123 TRACK=fe SLUG=editor-diff
+```
+
+Generate skill order for a task:
+
+```bash
+make vibe-plan TASK=api-change TRACKS=fe,be PARALLEL=true
+```
+
+Validate handoff documents:
+
+```bash
+make handoff-check
+```

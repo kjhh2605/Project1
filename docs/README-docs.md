@@ -12,6 +12,7 @@
 
 ## 추가 핵심 산출물
 - 서비스 분리 아키텍처: `13-service-split-architecture.md`
+- 병렬 바이브코딩 상세 매뉴얼: `80-parallel-vibe-workflow-manual.md`
 - OpenAPI 초안: `../apps/be/api/openapi/openapi.yaml`
 - OpenAPI 관리자 초안: `../apps/be/api/openapi/problem-admin.yaml`
 - Asynq 작업 스펙(제출): `22-asynq-task-spec.md`

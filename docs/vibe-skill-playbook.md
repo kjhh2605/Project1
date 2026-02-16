@@ -92,6 +92,16 @@
 - 세션마다 HANDOFF 문서 유지
 - 체인 PR일 경우 병합 순서 명시
 
+실행 명령:
+- `make wt-new ISSUE=123 TRACK=fe TYPE=feat SLUG=editor-diff TASK=feature`
+- `make wt-list`
+- `make wt-sync`
+- `make wt-close ISSUE=123 TRACK=fe SLUG=editor-diff`
+- `make handoff-check`
+
+스킬 자동 선택:
+- `make vibe-plan TASK=api-change TRACKS=fe,be PARALLEL=true`
+
 ---
 
 ## 6) 운영 안정화/배포 준비

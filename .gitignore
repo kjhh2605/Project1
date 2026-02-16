@@ -9,6 +9,7 @@ apps/fe/node_modules/
 # Next
 apps/fe/.next/
 apps/fe/coverage/
+apps/fe/tsconfig.tsbuildinfo
 
 # Go
 apps/be/bin/
@@ -25,3 +26,6 @@ apps/be/coverage.out
 # IDE
 .vscode/
 .idea/
+
+# Parallel workflow local state
+worktrees/

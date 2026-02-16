@@ -1,12 +1,124 @@
 :root {
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --bg: #d9e2ec;
+  --surface: #dfe8f2;
+  --ink: #233246;
+  --muted: #5b6f86;
+  --accent: #0d7db8;
+  --ok: #2f9e70;
+  --warn: #c07810;
+  --danger: #c34141;
+
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+
+  --shadow-outer:
+    12px 12px 24px #bcc6d1,
+    -10px -10px 20px #f4fbff;
+  --shadow-inner:
+    inset 7px 7px 13px #c0c8d3,
+    inset -7px -7px 13px #f8ffff;
+  --shadow-press:
+    inset 4px 4px 9px #bcc6d1,
+    inset -4px -4px 9px #f9ffff;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
+  min-height: 100%;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.75), transparent 38%),
+    radial-gradient(circle at 88% 90%, rgba(175, 201, 222, 0.45), transparent 35%),
+    var(--bg);
+  font-family: 'Space Grotesk', 'Avenir Next', 'Trebuchet MS', 'Segoe UI', sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+main {
   padding: 24px;
+}
+
+.neu-surface {
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-outer);
+}
+
+.neu-inset {
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-inner);
+}
+
+.neu-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow-outer);
+  transition: all 0.18s ease;
+}
+
+.neu-button:active {
+  box-shadow: var(--shadow-press);
+}
+
+.neu-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--surface);
+  box-shadow: var(--shadow-outer);
+}
+
+.page-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.page-header {
+  padding: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title {
+  margin: 0;
+  font-size: clamp(24px, 4vw, 36px);
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (max-width: 720px) {
+  main {
+    padding: 16px;
+  }
 }
