@@ -1,0 +1,20 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+
+  - repo: local
+    hooks:
+      - id: fe-lint
+        name: FE lint
+        entry: bash -c 'cd fe && pnpm lint'
+        language: system
+        pass_filenames: false
+      - id: be-lint
+        name: BE lint
+        entry: bash -c 'cd be && golangci-lint run'
+        language: system
+        pass_filenames: false

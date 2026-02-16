@@ -1,6 +1,6 @@
 services:
   be:
-    build: ./be
+    build: ./apps/be
     command: ["go", "run", "./cmd/api"]
     ports:
       - "8080:8080"
@@ -9,7 +9,7 @@ services:
       - CORS_ORIGIN=http://localhost:3000
 
   fe:
-    build: ./fe
+    build: ./apps/fe
     command: ["npm", "run", "dev", "--", "-p", "3000", "-H", "0.0.0.0"]
     ports:
       - "3000:3000"
@@ -35,7 +35,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   problem-factory:
-    build: ./problem-factory
+    build: ./apps/problem-factory
     ports:
       - "8090:8090"
     environment:
@@ -48,7 +48,7 @@ services:
       - postgres
 
   problem-factory-worker:
-    build: ./problem-factory
+    build: ./apps/problem-factory
     command: ["celery", "-A", "app.workers.celery_app.celery_app", "worker", "-l", "info"]
     environment:
       - APP_ENV=local

@@ -1,0 +1,133 @@
+openapi: 3.0.3
+info:
+  title: Project1 Problem Admin API
+  version: 0.1.0
+  description: 문제 생성/검토/퍼블리시를 위한 관리자 API 초안
+servers:
+  - url: http://localhost:8080
+
+tags:
+  - name: ProblemAdmin
+
+paths:
+  /v1/admin/problems:
+    get:
+      tags: [ProblemAdmin]
+      summary: 문제 목록 조회(관리자)
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+            enum: [draft, review, published, archived]
+        - in: query
+          name: category
+          schema:
+            type: string
+        - in: query
+          name: language
+          schema:
+            type: string
+            enum: [java, python]
+      responses:
+        '200':
+          description: OK
+    post:
+      tags: [ProblemAdmin]
+      summary: 문제 수동 생성
+      responses:
+        '201':
+          description: Created
+
+  /v1/admin/problems/{problemId}/submit-review:
+    post:
+      tags: [ProblemAdmin]
+      summary: 문제를 리뷰 상태로 전환
+      parameters:
+        - in: path
+          name: problemId
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: No Content
+
+  /v1/admin/problems/{problemId}/approve:
+    post:
+      tags: [ProblemAdmin]
+      summary: 리뷰 승인/반려 처리
+      parameters:
+        - in: path
+          name: problemId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision:
+                  type: string
+                  enum: [approved, rejected, needs_revision]
+                comments:
+                  type: string
+      responses:
+        '200':
+          description: OK
+
+  /v1/admin/problems/{problemId}/publish:
+    post:
+      tags: [ProblemAdmin]
+      summary: 문제 퍼블리시
+      parameters:
+        - in: path
+          name: problemId
+          required: true
+          schema: { type: string }
+      responses:
+        '204':
+          description: No Content
+
+  /v1/admin/generation-jobs:
+    post:
+      tags: [ProblemAdmin]
+      summary: PR 기반 문제 생성 작업 시작
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [sourceFilter, maxCount]
+              properties:
+                sourceFilter:
+                  type: object
+                  additionalProperties: true
+                category:
+                  type: string
+                difficulty:
+                  type: string
+                  enum: [easy, medium, hard]
+                maxCount:
+                  type: integer
+                  minimum: 1
+                  maximum: 500
+      responses:
+        '202':
+          description: Accepted
+
+  /v1/admin/generation-jobs/{jobId}:
+    get:
+      tags: [ProblemAdmin]
+      summary: 생성 작업 상태 조회
+      parameters:
+        - in: path
+          name: jobId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: OK
