@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "go vet ./...",
     "test": "go test ./...",
-    "build": "go build ./cmd/api",
+    "build": "mkdir -p build && go build -o build/api ./cmd/api",
     "typecheck": "go test ./..."
   }
 }
